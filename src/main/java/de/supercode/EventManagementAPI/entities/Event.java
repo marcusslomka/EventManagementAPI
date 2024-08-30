@@ -59,4 +59,7 @@ public class Event {
     public void setParticipants(List<Participant> participants) {
         this.participants = participants;
     }
+    public void addParticipantToEvent(Participant participant){
+        participants.add(participant);
+    }
 }

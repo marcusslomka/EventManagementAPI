@@ -1,6 +1,8 @@
 package de.supercode.EventManagementAPI.services;
 
+import de.supercode.EventManagementAPI.entities.Event;
 import de.supercode.EventManagementAPI.entities.Participant;
+import de.supercode.EventManagementAPI.repositories.EventRepository;
 import de.supercode.EventManagementAPI.repositories.ParticipantRepository;
 import jakarta.servlet.http.Part;
 import org.springframework.http.ResponseEntity;
@@ -13,20 +15,21 @@ import java.util.Optional;
 public class ParticipantService {
 
     ParticipantRepository participantRepository;
+    EventRepository eventRepository;
 
     public ParticipantService(ParticipantRepository participantRepository) {
         this.participantRepository = participantRepository;
     }
 
-    public boolean checkIfParticipantNameExists(String name){
-        if(this.participantRepository.findByName(name).isEmpty())
-            return false;
-        else return true;
-    }
-    public Optional<Participant> createParticipant(Participant participant){
-        if(checkIfParticipantNameExists(participant.getName()))
-            return Optional.empty();
-        else return Optional.of(participantRepository.save(participant));
+//    public boolean checkIfParticipantNameExists(String name){
+//        if(this.participantRepository.findByName(name).isEmpty())
+//            return false;
+//        else return true;
+//  }
+    public Optional<Participant> addParticipantAtEvent(long eventID, Participant participant){
+        Event toAddEvent = eventRepository.findById(eventID).get();
+        toAddEvent.addParticipantToEvent(participant);
+
 
     }
 
