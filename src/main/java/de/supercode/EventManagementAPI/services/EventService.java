@@ -10,6 +10,10 @@ import java.util.List;
 public class EventService {
     EventRepository eventRepository;
 
+    public EventService(EventRepository eventRepository) {
+        this.eventRepository = eventRepository;
+    }
+
     public Event createEvent(Event event){
         return eventRepository.save(event);
     }

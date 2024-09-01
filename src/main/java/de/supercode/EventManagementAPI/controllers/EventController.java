@@ -18,6 +18,11 @@ public class EventController {
     ParticipantService participantService;
     EventService eventService;
 
+    public EventController(ParticipantService participantService, EventService eventService) {
+        this.participantService = participantService;
+        this.eventService = eventService;
+    }
+
     @PostMapping
     public ResponseEntity<Event> createEvent(@RequestBody Event event){
         return ResponseEntity.status(HttpStatus.CREATED).body(eventService.createEvent(event));
@@ -28,25 +33,25 @@ public class EventController {
     }
 
     @GetMapping("/{eventID}")
-    public ResponseEntity<Event> getEventDetails(long eventID){
+    public ResponseEntity<Event> getEventDetails(@PathVariable long eventID){
         return ResponseEntity.status(HttpStatus.FOUND).body(eventService.getEventDetails(eventID));
     }
     @DeleteMapping("/{eventID}")
-    public ResponseEntity<Void> deleteEvent(long eventID){
+    public ResponseEntity<Void> deleteEvent(@PathVariable long eventID){
         eventService.deleteEvent(eventID);
         return ResponseEntity.noContent().build();
     }
     @PutMapping("/{eventID}")
-    public ResponseEntity<Event> updateEvent(@RequestBody Event event, long eventID){
+    public ResponseEntity<Event> updateEvent(@RequestBody Event event, @PathVariable long eventID){
         return ResponseEntity.ok().body(eventService.updateEvent(event,eventID));
     }
     //-----------------------
     @PostMapping("/{eventID}/participants")
-    public ResponseEntity<Participant> AddParticipantToEvent (@PathVariable long eventID, @RequestBody Participant participant){
-        return ResponseEntity.ok(participantService.addParticipantToEvent(eventID,participant).orElseThrow());
+    public ResponseEntity<Event> AddParticipantToEvent (@PathVariable long eventID, @RequestBody Participant participant){
+        return ResponseEntity.ok(participantService.addParticipantToEvent(eventID,participant));
     }
-    @GetMapping
-    public ResponseEntity<List<Participant>> getAllParticipants(){
-        return participantService
-    }
+//    @GetMapping
+//    public ResponseEntity<List<Participant>> getAllParticipants(){
+//        return participantService
+//    }
 }
