@@ -42,11 +42,8 @@ public class EventController {
     }
     //-----------------------
     @PostMapping("/{eventID}/participants")
-    public ResponseEntity<Participant> createParticipant(@RequestBody Participant participant){
-        Optional<Participant> parti = participantService.createParticipant(participant);
-        if (parti.isEmpty())
-            return ResponseEntity.noContent().build();
-        return ResponseEntity.status(HttpStatus.CREATED).body(parti.get());
+    public ResponseEntity<Participant> AddParticipantToEvent (@PathVariable long eventID, @RequestBody Participant participant){
+        return ResponseEntity.ok(participantService.addParticipantToEvent(eventID,participant).orElseThrow());
     }
     @GetMapping
     public ResponseEntity<List<Participant>> getAllParticipants(){

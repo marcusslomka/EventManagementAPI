@@ -26,11 +26,10 @@ public class ParticipantService {
 //            return false;
 //        else return true;
 //  }
-    public Optional<Participant> addParticipantAtEvent(long eventID, Participant participant){
+    public Optional<Participant> addParticipantToEvent(long eventID, Participant participant){
         Event toAddEvent = eventRepository.findById(eventID).get();
         toAddEvent.addParticipantToEvent(participant);
-
-
+        eventRepository.save(toAddEvent);
     }
 
     public Participant getParticipantByID(long id){
