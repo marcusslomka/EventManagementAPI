@@ -50,8 +50,12 @@ public class EventController {
     public ResponseEntity<Event> AddParticipantToEvent (@PathVariable long eventID, @RequestBody Participant participant){
         return ResponseEntity.ok(participantService.addParticipantToEvent(eventID,participant));
     }
-//    @GetMapping
-//    public ResponseEntity<List<Participant>> getAllParticipants(){
-//        return participantService
-//    }
+    @GetMapping("{eventID}/participants")
+    public ResponseEntity<List<Participant>> getAllParticipantsOfEvent(@PathVariable long eventID){
+        return ResponseEntity.status(HttpStatus.FOUND).body(participantService.getAllParticipants(eventID));
+    }
+    @PutMapping("{eventID}/{participantID}")
+    public ResponseEntity<Void> updateParticipant (@PathVariable long eventID,@PathVariable long participantID,@RequestBody Participant participant){
+        return ResponseEntity.ok()
+    }
 }

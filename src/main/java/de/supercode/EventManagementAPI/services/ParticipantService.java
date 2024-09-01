@@ -17,11 +17,12 @@ public class ParticipantService {
     ParticipantRepository participantRepository;
     EventRepository eventRepository;
 
-    public ParticipantService(ParticipantRepository participantRepository) {
+    public ParticipantService(ParticipantRepository participantRepository, EventRepository eventRepository) {
         this.participantRepository = participantRepository;
+        this.eventRepository = eventRepository;
     }
 
-//    public boolean checkIfParticipantNameExists(String name){
+    //    public boolean checkIfParticipantNameExists(String name){
 //        if(this.participantRepository.findByName(name).isEmpty())
 //            return false;
 //        else return true;
@@ -47,7 +48,8 @@ public class ParticipantService {
         participantRepository.save(toUpdateParticipant);
     }
 
-    public List<Participant> getAllParticipants(){
-        return participantRepository.findAll();
+    public List<Participant> getAllParticipants(long eventID){
+        Event event = eventRepository.findById(eventID).orElseThrow();
+        return event.getParticipants();
     }
 }
