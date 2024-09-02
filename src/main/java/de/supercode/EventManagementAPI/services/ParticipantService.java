@@ -30,21 +30,22 @@ public class ParticipantService {
     public Event addParticipantToEvent(long eventID, Participant participant){
         Event toAddEvent = eventRepository.findById(eventID).get();
         toAddEvent.addParticipantToEvent(participant);
+        participantRepository.save(participant);
         return eventRepository.save(toAddEvent);
-
     }
 
-    public Participant getParticipantByID(long id){
-        return participantRepository.findById(id).get();
+    public Participant getParticipantByID(long eventID,long participantID){
+        Event event = eventRepository.findById(eventID).orElseThrow();
+        return event.getParticipantByID(participantID);
     }
-    public void deleteParticipant(long id){
-        participantRepository.delete(participantRepository.findById(id).orElseThrow());
+    public void deleteParticipant(long eventID, long participantID){
+        Event event = eventRepository.findById(eventID).orElseThrow();
+        event.getParticipants().remove(participantID);
     }
-    public void updateParticipant(long id, Participant participant){
-        Participant toUpdateParticipant = participantRepository.findById(id).get();
-        toUpdateParticipant.setEmail(participant.getEmail());
+    public void updateParticipant(long eventID, long participantID, Participant participant){
+        Event event = eventRepository.findById(eventID).get();
+        Participant toUpdateParticipant = event.getParticipantByID(participantID);
         toUpdateParticipant.setConfirmed(participant.isConfirmed());
-        toUpdateParticipant.setName(participant.getName());
         participantRepository.save(toUpdateParticipant);
     }
 

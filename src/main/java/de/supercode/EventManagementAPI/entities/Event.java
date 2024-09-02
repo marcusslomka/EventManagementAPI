@@ -62,4 +62,7 @@ public class Event {
     public void addParticipantToEvent(Participant participant){
         participants.add(participant);
     }
+    public Participant getParticipantByID(long id){
+        return participants.stream().filter(participant -> participant.getId() == id).findFirst().orElse(null);
+    }
 }

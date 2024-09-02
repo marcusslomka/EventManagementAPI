@@ -55,7 +55,17 @@ public class EventController {
         return ResponseEntity.status(HttpStatus.FOUND).body(participantService.getAllParticipants(eventID));
     }
     @PutMapping("{eventID}/{participantID}")
-    public ResponseEntity<Void> updateParticipant (@PathVariable long eventID,@PathVariable long participantID,@RequestBody Participant participant){
-        return ResponseEntity.ok()
+    public ResponseEntity<Void> updateParticipantsConfirmation (@PathVariable long eventID,@PathVariable long participantID,@RequestBody Participant participant){
+        participantService.updateParticipant(eventID,participantID,participant);
+        return ResponseEntity.noContent().build();
+    }
+    @GetMapping("{eventID}/{participantID}")
+    public ResponseEntity<Participant> getParticipantByID (@PathVariable long eventID, @PathVariable long participantID){
+        return ResponseEntity.status(HttpStatus.FOUND).body(participantService.getParticipantByID(eventID,participantID));
+    }
+    @DeleteMapping("{eventID}/{participantID}")
+    public ResponseEntity<Void> deleteParticipantOfEvent (@PathVariable long eventID,@PathVariable long participantID){
+        participantService.deleteParticipant(eventID,participantID);
+        return ResponseEntity.noContent().build();
     }
 }
